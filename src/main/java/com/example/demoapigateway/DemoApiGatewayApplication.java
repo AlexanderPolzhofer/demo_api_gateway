@@ -5,28 +5,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @SpringBootApplication
 public class DemoApiGatewayApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApiGatewayApplication.class, args);
-
     }
 
     @Bean
-    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+    public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route(p -> p
-                        .path("/get")
-                        .filters(f -> f.addRequestHeader("Hello", "World"))
-                        .uri("http://httpbin.org:80"))
+                .route("Service1", r -> r.path("/uuid/**")
+                        .uri("http://httpbin.org"))
                 .build();
     }
-
-
 }
 
 
